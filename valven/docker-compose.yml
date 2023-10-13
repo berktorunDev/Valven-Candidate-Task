@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  postgres-container:
+    container_name: postgres-container
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: username
+      POSTGRES_DB: commit_tracker
+    ports:
+      - "5432:5432"

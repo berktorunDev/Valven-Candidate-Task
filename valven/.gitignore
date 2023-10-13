@@ -1,0 +1,42 @@
+# Eclipse IDE
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven
+target/
+mvnw
+mvnw.cmd
+.mvn/
+*.jar
+
+# Gradle
+build/
+.gradle/
+!gradle-wrapper.jar
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Spring Boot
+application.properties
+
+# IDE-specific files
+*.log
+*.log.*
+*.swp
+*~
+
+# Package Files
+*.war
+*.ear
+*.jar

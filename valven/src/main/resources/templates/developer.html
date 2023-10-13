@@ -1,0 +1,27 @@
+<!-- developer.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Developer Page</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/fonts.css}" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Welcome, <span th:text="${githubUsername}"></span>!</h1>
+        <div class="info">
+            <div class="github">
+                <h2>GitHub Info</h2>
+                <p>Username: <span th:text="${githubUsername}"></span></p>
+                <p>Email: <span th:text="${githubEmail}"></span></p>
+            </div>
+            <div class="gitlab">
+                <h2>GitLab Info</h2>
+                <p>Username: <span th:text="${gitlabUsername}"></span></p>
+                <p>Email: <span th:text="${gitlabEmail}"></span></p>
+            </div>
+        </div>
+        <a th:href="@{/commitList}" class="btn btn-primary">Commit List</a>
+    </div>
+</body>
+</html>
