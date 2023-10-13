@@ -13,7 +13,6 @@ import com.candidate.valven.service.GitLabService;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 public class ValvenApplication {
 
 	private final GitHubService gitHubService;
@@ -30,9 +29,8 @@ public class ValvenApplication {
 
 	@PostConstruct
 	public void onApplicationStartup() throws IOException, GitLabApiException {
-		// Uygulama başladığında veri alma işlemini başlatın
-		gitHubService.fetchAndStoreCommits();
-		gitLabService.fetchAndStoreCommits();
+		// Execute the data retrieval process when the application starts
+		gitHubService.fetchAndStoreCommits(); // Fetch and store commits from GitHub
+		gitLabService.fetchAndStoreCommits(); // Fetch and store commits from GitLab
 	}
-
 }

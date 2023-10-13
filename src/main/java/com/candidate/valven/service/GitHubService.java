@@ -20,6 +20,7 @@ import com.candidate.valven.repository.CommitRepository;
 public class GitHubService {
     private final CommitRepository commitRepository;
 
+    // Calculate the timestamp for the date one month ago
     private final long sinceTimestamp = LocalDateTime.now().minusMonths(1).toEpochSecond(ZoneOffset.UTC);
 
     @Value("${github.username}")
@@ -29,16 +30,27 @@ public class GitHubService {
     private String githubOAuthAccessToken;
 
     public GitHubService(CommitRepository commitRepository) {
+        // Constructor for GitHubService, injecting the CommitRepository dependency.
         this.commitRepository = commitRepository;
     }
 
+    /**
+     * Fetches and stores commits from GitHub repositories within the last month.
+     *
+     * @throws IOException If there is an issue with connecting to the GitHub API.
+     */
     public void fetchAndStoreCommits() throws IOException {
+        // Connect to GitHub using the provided username and OAuth access token
         GitHub github = GitHub.connect(githubUsername, githubOAuthAccessToken);
+
+        // Get a list of repositories owned by the authenticated user
         Map<String, GHRepository> repositories = github.getMyself().getRepositories();
 
+        // Iterate through each repository to fetch commits made in the last month
         for (GHRepository repository : repositories.values()) {
             List<GHCommit> commits = repository.queryCommits().since(sinceTimestamp).list().toList();
 
+            // Convert GitHub commits to Commit entities and store them in the database
             for (GHCommit githubCommit : commits) {
                 Commit commitEntity = new Commit();
                 commitEntity.setHash(githubCommit.getSHA1());
@@ -46,6 +58,7 @@ public class GitHubService {
                 commitEntity.setMessage(githubCommit.getCommitShortInfo().getMessage());
                 commitEntity.setAuthor(githubCommit.getCommitter().getLogin());
 
+                // Save the Commit entity in the database
                 commitRepository.save(commitEntity);
             }
         }

@@ -1,0 +1,21 @@
+<!-- commitDetail.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Commit Detail</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/fonts.css}" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Commit Detail</h1>
+        <div class="commit-details">
+            <p><strong>Hash:</strong> <span th:text="${commitDTO.hash}"></span></p>
+            <p><strong>Timestamp:</strong> <span th:text="${commitDTO.timestamp}"></span></p>
+            <p><strong>Author:</strong> <span th:text="${commitDTO.author}"></span></p>
+            <p><strong>Message:</strong> <span th:text="${commitDTO.message}"></span></p>
+        </div>
+        <a th:href="@{/commitList}" class="btn btn-primary">Back to Commit List</a>
+    </div>
+</body>
+</html>

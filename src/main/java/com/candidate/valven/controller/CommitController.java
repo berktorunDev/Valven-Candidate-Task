@@ -32,30 +32,37 @@ public class CommitController {
 
     @GetMapping("/developer")
     public String showDeveloperPage(Model model) {
-        // Kullanıcı adı ve e-posta bilgilerini model'e ekleyin
+        // Endpoint for rendering the developer page
+
+        // Add user-related information (GitHub and GitLab usernames and emails) to the
+        // model
         model.addAttribute("githubUsername", githubUsername);
         model.addAttribute("githubEmail", githubEmail);
         model.addAttribute("gitlabUsername", gitlabUsername);
         model.addAttribute("gitlabEmail", gitlabEmail);
 
-        return "developer.html"; // developer.html Thymeleaf şablon adı
+        return "developer.html"; // Thymeleaf template name: developer.html
     }
 
     @GetMapping("/commitList")
     public String showCommitList(Model model) {
-        // Commit listesini çekerek model'e ekleyin
+        // Endpoint for rendering the commit list page
+
+        // Retrieve the commit list and add it to the model
         List<CommitDTO> commitList = commitService.getCommitsFromGitHubAndGitLab();
         model.addAttribute("commitList", commitList);
 
-        return "commitList"; // commitList.html Thymeleaf şablon adı
+        return "commitList"; // Thymeleaf template name: commitList.html
     }
 
     @GetMapping("/commitDetail/{id}")
     public String showCommitDetail(@PathVariable Long id, Model model) {
-        // Belirli bir commitin detaylarını çekerek model'e ekleyin
+        // Endpoint for rendering the commit detail page for a specific commit
+
+        // Retrieve the details of a specific commit by its ID and add them to the model
         CommitDTO commitDTO = commitService.getCommitById(id);
         model.addAttribute("commitDTO", commitDTO);
 
-        return "commitDetail"; // commitDetail.html Thymeleaf şablon adı
+        return "commitDetail"; // Thymeleaf template name: commitDetail.html
     }
 }

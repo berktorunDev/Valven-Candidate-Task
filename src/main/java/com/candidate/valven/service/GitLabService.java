@@ -20,20 +20,29 @@ public class GitLabService {
     private String gitlabOAuthAccessToken;
 
     public GitLabService(CommitRepository commitRepository) {
+        // Constructor for GitLabService, injecting the CommitRepository dependency.
         this.commitRepository = commitRepository;
     }
 
+    /**
+     * Fetches and stores commits from GitLab repositories within the last month.
+     *
+     * @throws GitLabApiException If there is an issue with connecting to the GitLab
+     *                            API.
+     */
     public void fetchAndStoreCommits() throws GitLabApiException {
-        // GitLab API ile bağlantı kurma
+        // Establish a connection with the GitLab API
         GitLabApi gitLabApi = new GitLabApi("https://gitlab.com", gitlabOAuthAccessToken);
 
-        // Kullanıcının projelerini al
+        // Retrieve the list of projects owned by the authenticated user
         List<Project> projects = gitLabApi.getProjectApi().getProjects();
 
+        // Iterate through each project to fetch commits made in the last month
         for (Project project : projects) {
-            // Projenin son 1 ay içindeki commitlerini al
+            // Fetch commits made in the last month for the project
             List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId());
 
+            // Convert GitLab commits to Commit entities and store them in the database
             for (Commit gitlabCommit : commits) {
                 com.candidate.valven.model.Commit commitEntity = new com.candidate.valven.model.Commit();
                 commitEntity.setHash(gitlabCommit.getId());
@@ -41,7 +50,7 @@ public class GitLabService {
                 commitEntity.setMessage(gitlabCommit.getMessage());
                 commitEntity.setAuthor(gitlabCommit.getCommitterName());
 
-                // GitLab'dan alınan commit verilerini CommitEntity olarak saklayın
+                // Save the Commit entity in the database
                 commitRepository.save(commitEntity);
             }
         }
